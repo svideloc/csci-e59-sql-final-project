@@ -4,7 +4,7 @@ Final Project for Designing and Developing Relational and NoSQL Databases (CSCI 
 
 [Link to Presentation](https://www.canva.com/design/DAE-WG1qk5A/iOBoycNkYgKFXwu4GECifw/view?utm_content=DAE-WG1qk5A&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent)
 
-## Prolem Statement
+## Problem Statement
 
 **Design database for storing data relevant to the detection and evaluation of Automated Target Recognition (ATR) models.**
 
