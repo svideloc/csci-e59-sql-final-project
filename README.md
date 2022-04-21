@@ -17,11 +17,11 @@ Identify models that are performing best on a particular dataset
 
 See the below diagram to understand the structure of the dataset.
 
+![diagram](diagram.png)
+
 ## Creating Tables
 
 See the file `create_tables.sql` for the sql code for creating the tables.
-
-![diagram](diagram.png)
 
 ## Inserting Data (with Python)
 
