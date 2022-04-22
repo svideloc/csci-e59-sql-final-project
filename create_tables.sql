@@ -6,10 +6,8 @@ CREATE TABLE `DATASETS` (
 );
 
 CREATE TABLE `IMAGES` (
-  `image_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `image_id` INT NOT NULL PRIMARY KEY,
   `dataset_id` INT NOT NULL,
-  `type` VARCHAR(20) NOT NULL,
-  `description` VARCHAR(20) NOT NULL,
   FOREIGN KEY (`dataset_id`) REFERENCES `DATASETS`(`dataset_id`)
 );
 
@@ -66,8 +64,9 @@ CREATE TABLE `DETECTIONS` (
   `xmax` DECIMAL(8,3) NOT NULL,
   `ymin` DECIMAL(8,3) NOT NULL,
   `ymax` DECIMAL(8,3) NOT NULL,
-  `predicted_calss` VARCHAR(20) NOT NULL,
+  `predicted_class` VARCHAR(20) NOT NULL,
   `probability` DECIMAL(5,2) NOT NULL,
   FOREIGN KEY (`model_id`) REFERENCES `MODELS`(`model_id`),
   FOREIGN KEY (`model_id`) REFERENCES `IMAGES`(`image_id`)
 );
+
