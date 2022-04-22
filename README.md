@@ -27,6 +27,4 @@ See the file `create_tables.sql` for the sql code for creating the tables.
 
 See the file `insert_data.py` for the python code to insert code into the `images`, `detection`, `results_metadata`, and `truth_labels` tables.
 
-For examples on inserting data into the other tables see the file `insert_data.sql`.
-
 ## Common Queries
