@@ -6,14 +6,14 @@ CREATE TABLE `DATASETS` (
 );
 
 CREATE TABLE `IMAGES` (
-  `image_id` INT NOT NULL PRIMARY KEY,
+  `image_id` VARCHAR(20) NOT NULL PRIMARY KEY,
   `dataset_id` INT NOT NULL,
   FOREIGN KEY (`dataset_id`) REFERENCES `DATASETS`(`dataset_id`)
 );
 
 CREATE TABLE `MODELS` (
   `model_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `key` VARCHAR(20) NOT NULL,
+  `type` VARCHAR(20) NOT NULL,
   `name` VARCHAR(20) NOT NULL,
   `description` VARCHAR(100) NOT NULL
 );
@@ -28,26 +28,24 @@ CREATE TABLE `EVALUATION` (
   `metric` VARCHAR(20) NOT NULL,
   `IOU` DECIMAL(3,2) NOT NULL,
   FOREIGN KEY (`model_id`) REFERENCES `MODELS`(`model_id`),
-  FOREIGN KEY (`model_id`) REFERENCES `DATASETS`(`dataset_id`)
+  FOREIGN KEY (`dataset_id`) REFERENCES `DATASETS`(`dataset_id`)
 );
 
 CREATE TABLE `RESULTS_METADATA` (
   `results_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `evaluation_id` INT NOT NULL,
-  `precision` DECIMAL(5,2) NOT NULL,
-  `recall` DECIMAL(5,2) NOT NULL,
-  `true_pos` DECIMAL(5,2) NOT NULL,
-  `false_pos` DECIMAL(5,2) NOT NULL,
-  `false_neg` DECIMAL(5,2) NOT NULL,
-  `probability` DECIMAL(5,2) NOT NULL,
-  `image_id` INT NOT NULL,
-  FOREIGN KEY (`image_id`) REFERENCES `IMAGES`(`image_id`),
+  `prec` DECIMAL(8,3) NOT NULL,
+  `rec` DECIMAL(8,3) NOT NULL,
+  `true_pos` INT NOT NULL,
+  `false_pos` INT NOT NULL,
+  `false_neg` INT NOT NULL,
+  `prob` DECIMAL(8,3) NOT NULL,
   FOREIGN KEY (`evaluation_id`) REFERENCES `EVALUATION`(`evaluation_id`)
 );
 
 CREATE TABLE `TRUTH_LABELS` (
   `truth_label_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `image_id` INT NOT NULL,
+  `image_id` VARCHAR(20) NOT NULL,
   `xmin` DECIMAL(8,3) NOT NULL,
   `xmax` DECIMAL(8,3) NOT NULL,
   `ymin` DECIMAL(8,3) NOT NULL,
@@ -59,7 +57,7 @@ CREATE TABLE `TRUTH_LABELS` (
 CREATE TABLE `DETECTIONS` (
   `detection_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `model_id` INT NOT NULL,
-  `image_id` INT NOT NULL,
+  `image_id` VARCHAR(20) NOT NULL,
   `xmin` DECIMAL(8,3) NOT NULL,
   `xmax` DECIMAL(8,3) NOT NULL,
   `ymin` DECIMAL(8,3) NOT NULL,
@@ -67,6 +65,6 @@ CREATE TABLE `DETECTIONS` (
   `predicted_class` VARCHAR(20) NOT NULL,
   `probability` DECIMAL(5,2) NOT NULL,
   FOREIGN KEY (`model_id`) REFERENCES `MODELS`(`model_id`),
-  FOREIGN KEY (`model_id`) REFERENCES `IMAGES`(`image_id`)
+  FOREIGN KEY (`image_id`) REFERENCES `IMAGES`(`image_id`)
 );
 
