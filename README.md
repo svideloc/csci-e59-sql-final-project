@@ -17,7 +17,7 @@ Identify models that are performing best on a particular dataset
 
 See the below diagram to understand the structure of the dataset.
 
-![diagram](digaram2.png)
+![diagram](diagram2.png)
 
 ## Creating Tables
 
