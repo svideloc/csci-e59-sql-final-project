@@ -11,19 +11,19 @@ Insert data into SQL DB
 
 Example
 -------
-python insert_data.py --actions DATASETS --typeorkey boat --description "gold dataset for boats" --name retinaBoats --password Eaglefan11! 
+python insert_data.py --actions DATASETS --typeorkey boat --description "gold dataset for boats" --name retinaBoats --password PASSWORD
 
-python insert_data.py --actions MODELS --typeorkey boat --description "retina net model for boats" --name retinaBoats --password Eaglefan11! 
+python insert_data.py --actions MODELS --typeorkey boat --description "retina net model for boats" --name retinaBoats --password PASSWORD
 
-python insert_data.py --actions EVALUATION --model-id 1 --dataset-id 1 --object boat --score 0.94 --metric AP_SCORE --iou 0.5 --password Eaglefan11!
+python insert_data.py --actions EVALUATION --model-id 1 --dataset-id 1 --object boat --score 0.94 --metric AP_SCORE --iou 0.5 --password PASSWORD
 
-python insert_data.py --actions IMAGES --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/detections --dataset-id 1 --password Eaglefan11!
+python insert_data.py --actions IMAGES --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/detections --dataset-id 1 --password PASSWORD
 
-python insert_data.py --actions DETECTIONS --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/detections --model-id 1 --password Eaglefan11!
+python insert_data.py --actions DETECTIONS --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/detections --model-id 1 --password PASSWORD
 
-python insert_data.py --actions TRUTH_LABELS --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/ground_truth --password Eaglefan11!
+python insert_data.py --actions TRUTH_LABELS --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/ground_truth --password PASSWORD
 
-python insert_data.py --actions RESULTS_METADATA --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/resultsIOU=0.50/all_results.csv --evaluation-id 1 --password Eaglefan11!
+python insert_data.py --actions RESULTS_METADATA --data-path /home/svidelock/harvard_extension/csciE59/project/data/model1/resultsIOU=0.50/all_results.csv --evaluation-id 1 --password PASSWORD
 """
 
 parser = argparse.ArgumentParser(description=DESC)
@@ -238,4 +238,3 @@ if __name__ == "__main__":
 
     mydb.commit()
     print(mycursor.rowcount, "was inserted.")
-
