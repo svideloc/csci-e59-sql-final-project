@@ -26,15 +26,47 @@ Let's go through each table, its purpose, and what data it is storing.
 
 *MODELS* and *DATASETS* are two of the simpler tables in the dataset. The *MODELS* table simply captures each model that is available in the evaluation. Similarly the *DATASETS* table shows which datasets are available to inference the evaluation against. Users looking at the UI, will likely see a list of available models and datasets which will be derived from these tables!See the below `SELECT` statement for the kind of data that exists in these two tables:
 
-<img src="images/models_datasets2.png" alt="drawing" width="350"/>
+```
+mysql> SELECT * FROM MODELS LIMIT 5;
++----------+-------------+------+----------------------------+
+| model_id | type        | name | description                |
++----------+-------------+------+----------------------------+
+|        1 | retinaBoats | boat | retina net model for boats |
+|        2 | fasterBoats | boat | faster rcnn for boats      |
+|        3 | fasterCats  | cats | faster rcnn for cats       |
+|        4 | fasterCats  | dogs | faster rcnn for dogs       |
++----------+-------------+------+----------------------------+
+4 rows in set (0.00 sec)
 
+mysql> SELECT * FROM MODELS LIMIT 4;
++----------+-------------+------+----------------------------+
+| model_id | type        | name | description                |
++----------+-------------+------+----------------------------+
+|        1 | retinaBoats | boat | retina net model for boats |
+|        2 | fasterBoats | boat | faster rcnn for boats      |
+|        3 | fasterCats  | cats | faster rcnn for cats       |
+|        4 | fasterCats  | dogs | faster rcnn for dogs       |
++----------+-------------+------+----------------------------+
+4 rows in set (0.00 sec)
+```
 
 ### IMAGES
 
 *IMAGES* really just refers to the image metadata, for the class example I'm just going to use the `image_id` (which will just be the name of the file for now) and a **FOREIGN KEY** reference to the `dataset_id` from the *DATASETS* table for which an image belongs in. You will notice in the diagram a one to many relationship as one image can actually belong in multiple datasets! See the below image for the kind of data that exists in this table:
 
-<img src="images/images.png" alt="drawing" width="300"/>
-
+```
+mysql> SELECT * FROM IMAGES LIMIT 5;
++-----------+------------+
+| image_id  | dataset_id |
++-----------+------------+
+| 00aa8bc42 |          1 |
+| 00c3e1386 |          1 |
+| 00c54cf6e |          1 |
+| 00ce2c1c0 |          1 |
+| 0a09da25f |          1 |
++-----------+------------+
+5 rows in set (0.00 sec)
+```
 
 ### DETECTIONS and TRUTH_LABELS
 
@@ -154,9 +186,6 @@ mysql> show tables;
 +--------------------+
 7 rows in set (0.01 sec)
 ```
-
-
-<img src="images/showtables.png" alt="drawing" width="250"/>
 
 ## Inserting Data (with Python)
 
