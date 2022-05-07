@@ -26,7 +26,7 @@ Let's go through each table, its purpose, and what data it is storing.
 
 *MODELS* and *DATASETS* are two of the simpler tables in the dataset. The *MODELS* table simply captures each model that is available in the evaluation. Similarly the *DATASETS* table shows which datasets are available to inference the evaluation against. Users looking at the UI, will likely see a list of available models and datasets which will be derived from these tables!See the below `SELECT` statement for the kind of data that exists in these two tables:
 
-<img src="images/models_datasets.png" alt="drawing" width="350"/>
+<img src="images/models_datasets2.png" alt="drawing" width="350"/>
 
 
 ### IMAGES
@@ -46,7 +46,7 @@ These two tables show where actual objects are in an image. The *TRUTH_LABELS* t
 
 The *EVALUATION* table is a great summary table for how a model performed. It will tell you which model and dataset was used, the time of the evaluation, and the score of the model as well as some other associated metadata. This will be a simple table to query for users looking at the UI, wanting to compare different model runs. See below for the type of data in this table:
 
-<img src="images/evaluation.png" alt="drawing" width="500"/>
+<img src="images/evaluation2.png" alt="drawing" width="500"/>
 
 ### RESULTS_METADATA
 
@@ -54,7 +54,15 @@ This table contians the metadata that determined the score in the *EVALUATION* t
 
 <img src="images/results_metadata.png" alt="drawing" width="500"/>
 
-## Creating Tables
+## Creating Tables & Database
+
+The database was created with the following command:
+
+```sql
+CREATE DATABASE atr_eval;
+```
+
+<img src="images/showdatabaes.png" alt="drawing" width="250"/>
 
 See the file [create_tables.sql](create_tables.sql) file for the sql code for creating the tables. Here is an example of creating a table for the *EVALUATION* table:
 
@@ -72,6 +80,8 @@ CREATE TABLE `EVALUATION` (
   FOREIGN KEY (`dataset_id`) REFERENCES `DATASETS`(`dataset_id`)
 );
 ```
+
+<img src="images/showtables.png" alt="drawing" width="250"/>
 
 ## Inserting Data (with Python)
 
