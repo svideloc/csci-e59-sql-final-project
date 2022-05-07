@@ -16,6 +16,15 @@ The client requires a system that can leverage "Gold" datasets to evaluate model
 
 Data such as what model was used, what dataset was used, truth labels, detections, and image metadata will all need to be stored in a place that can be easily queried, in order to show common evaluation metrics such as Precision/Recall tables for a given model run and identify models that are performing best on a particular dataset.
 
+### Big Picture
+
+A user should be able to select a model & select a dataset and run an Evaluation.
+
+The mySQL database will handle storing all of the information associated with model detection's and evaluations, as well as image and model metadata.
+
+![diagram](images/bigpicture.png)
+
+
 ## mySQL Design
 
 See the below diagram to understand the structure of the dataset.
@@ -32,7 +41,7 @@ Let's go through each table, its purpose, and what data it is storing.
 
 
 ```
-mysql> SELECT * FROM MODELS LIMIT 5;
+mysql> SELECT * FROM MODELS LIMIT 4;
 +----------+-------------+------+----------------------------+
 | model_id | type        | name | description                |
 +----------+-------------+------+----------------------------+
