@@ -6,7 +6,7 @@ Final Project for Designing and Developing Relational and NoSQL Databases (CSCI 
 
 - [Link to Presentation](https://www.canva.com/design/DAE-WG1qk5A/iOBoycNkYgKFXwu4GECifw/view?utm_content=DAE-WG1qk5A&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent)
 - [Link to Github Repo](https://github.com/svideloc/csci-e59-sql-final-project)
-- [Link to Video]()
+- [Link to Video](https://www.canva.com/design/DAE-WG1qk5A/iOBoycNkYgKFXwu4GECifw/view?utm_content=DAE-WG1qk5A&utm_campaign=designshare&utm_medium=link&utm_source=recording_view)
 
 ## Problem Statement
 
