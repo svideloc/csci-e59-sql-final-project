@@ -40,21 +40,57 @@ Let's go through each table, its purpose, and what data it is storing.
 
 These two tables show where actual objects are in an image. The *TRUTH_LABELS* table obviously shows where the true objects are in a particular `image_id` (**FOREIGN KEY** reference to the *IMAGES* table). The data you will find will be the `xmin`, `xmax`, `ymin`, `ymax` of where an object is in an image and of course what that object is. The *DETECTIONS* Table is very similar, but it is what the model predicted on an image (**FOREIGN KEY** reference to the *MODELS* table). See the below `SELECT` statement for the kind of data that exists in these two tables:
 
-<img src="images/detections_truthlabels.png" alt="drawing" width="500"/>
+```
+mysql> SELECT * FROM TRUTH_LABELS LIMIT 5;
++----------------+-----------+---------+---------+---------+---------+-------+
+| truth_label_id | image_id  | xmin    | xmax    | ymin    | ymax    | class |
++----------------+-----------+---------+---------+---------+---------+-------+
+|              1 | 0a09da25f | 506.000 | 627.000 |  26.000 |  87.000 | boat  |
+|              2 | 0a15f8996 | 532.000 | 710.000 |   4.000 |  60.000 | boat  |
+|              3 | ff890d001 |  21.000 | 202.000 | 448.000 | 540.000 | boat  |
+|              4 | 0b652af9e | 429.000 | 543.000 | 518.000 | 616.000 | boat  |
+|              5 | ffc00cde1 | 447.000 | 768.000 | 153.000 | 252.000 | boat  |
++----------------+-----------+---------+---------+---------+---------+-------+
+5 rows in set (0.00 sec)
+```
 
 ### EVALUATION
 
 The *EVALUATION* table is a great summary table for how a model performed. It will tell you which model and dataset was used, the time of the evaluation, and the score of the model as well as some other associated metadata. This will be a simple table to query for users looking at the UI, wanting to compare different model runs. See below for the type of data in this table:
 
-<img src="images/evaluation2.png" alt="drawing" width="500"/>
+```
+mysql> SELECT * FROM EVALUATION LIMIT 5;
++---------------+----------+------------+---------------------+--------+-------+----------+------+
+| evaluation_id | model_id | dataset_id | timestamp           | object | score | metric   | IOU  |
++---------------+----------+------------+---------------------+--------+-------+----------+------+
+|             1 |        1 |          1 | 2022-04-23 01:37:17 | boat   |  0.94 | AP_SCORE | 0.50 |
+|             2 |        1 |          1 | 2022-04-24 18:53:55 | boat   |  0.96 | AP_SCORE | 0.30 |
+|             3 |        2 |          1 | 2022-04-24 19:16:29 | boat   |  0.99 | AP_SCORE | 0.50 |
+|             4 |        2 |          1 | 2022-04-24 19:16:50 | boat   |  1.00 | AP_SCORE | 0.30 |
+|             5 |        4 |          2 | 2022-04-24 19:37:06 | dog    |  0.90 | AP_SCORE | 0.50 |
++---------------+----------+------------+---------------------+--------+-------+----------+------+
+5 rows in set (0.00 sec)
+```
 
 ### RESULTS_METADATA
 
 This table contians the metadata that determined the score in the *EVALUATION* table. It is very useful to view this data ordered by probability of a detection, to view how the precision and recall scores change as our threshold/probability goes down. See below for the type of data that exists in this table:
 
-<img src="images/results_metadata.png" alt="drawing" width="500"/>
+```
+mysql> SELECT * FROM RESULTS_METADATA LIMIT 5;
++------------+---------------+-------+-------+----------+-----------+-----------+-------+
+| results_id | evaluation_id | prec  | rec   | true_pos | false_pos | false_neg | prob  |
++------------+---------------+-------+-------+----------+-----------+-----------+-------+
+|          1 |             1 | 1.000 | 0.010 |        1 |         0 |       106 | 0.999 |
+|          2 |             1 | 1.000 | 0.020 |        2 |         0 |       105 | 0.997 |
+|          3 |             1 | 1.000 | 0.030 |        3 |         0 |       104 | 0.996 |
+|          4 |             1 | 1.000 | 0.040 |        4 |         0 |       103 | 0.996 |
+|          5 |             1 | 1.000 | 0.050 |        5 |         0 |       102 | 0.996 |
++------------+---------------+-------+-------+----------+-----------+-----------+-------+
+5 rows in set (0.00 sec)
+```
 
-## Creating Tables & Database
+## Creating Database & Tables
 
 The database was created with the following command:
 
@@ -62,7 +98,27 @@ The database was created with the following command:
 CREATE DATABASE atr_eval;
 ```
 
-<img src="images/showdatabaes.png" alt="drawing" width="250"/>
+View the databse:
+
+```
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| atr_eval           |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.21 sec)
+```
+
+Use the new database:
+
+```sql
+mysql> use atr_eval;
+```
 
 See the file [create_tables.sql](create_tables.sql) file for the sql code for creating the tables. Here is an example of creating a table for the *EVALUATION* table:
 
@@ -80,6 +136,25 @@ CREATE TABLE `EVALUATION` (
   FOREIGN KEY (`dataset_id`) REFERENCES `DATASETS`(`dataset_id`)
 );
 ```
+
+Show all of the tables:
+
+```
+mysql> show tables;
++--------------------+
+| Tables_in_atr_eval |
++--------------------+
+| DATASETS           |
+| DETECTIONS         |
+| EVALUATION         |
+| IMAGES             |
+| MODELS             |
+| RESULTS_METADATA   |
+| TRUTH_LABELS       |
++--------------------+
+7 rows in set (0.01 sec)
+```
+
 
 <img src="images/showtables.png" alt="drawing" width="250"/>
 
