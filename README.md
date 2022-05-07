@@ -1,16 +1,20 @@
-# mySQL Database for Automated Target Recognition (ATR) Common Evaulation Store
+# mySQL Database for Automated Target Recognition (ATR) Common Evaluation Store 
 
-Final Project for Designing and Developing Relational and NoSQL Databases (CSCI E59)
+Final Project for Designing and Developing Relational and NoSQL Databases (CSCI E59) - **Sam Videlock**
 
 [Link to Presentation](https://www.canva.com/design/DAE-WG1qk5A/iOBoycNkYgKFXwu4GECifw/view?utm_content=DAE-WG1qk5A&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent)
+
+[Link to Github Repo](https://github.com/svideloc/csci-e59-sql-final-project)
+
+[Link to Video]()
 
 ## Problem Statement
 
 **Design database for storing data relevant to the detection and evaluation of Automated Target Recognition (ATR) models.**
 
-The client requires that the system that can leverage "Gold" datasets to evaluate models from different teams to determine which model is performing best on a common evaluation process.
+The client requires a system that can leverage "Gold" datasets to evaluate models from different teams to determine which model is performing best on a common evaluation process.
 
-Data such as what model was used, what dateset was used, truth labels, detections, and image metadata will all need to be stored in a place that can be easily queried, in order to show common evaluation metrics such as Precision/Recall tables for a given model run and identify models that are performing best on a particular dataset.
+Data such as what model was used, what dataset was used, truth labels, detections, and image metadata will all need to be stored in a place that can be easily queried, in order to show common evaluation metrics such as Precision/Recall tables for a given model run and identify models that are performing best on a particular dataset.
 
 ## mySQL Design
 
@@ -18,13 +22,14 @@ See the below diagram to understand the structure of the dataset.
 
 ![diagram](images/diagram2.png)
 
-I chose a sql database because of the many foreign key interactions, and likely transactions that will be going on to the database at the same time. Multiple users will be able to access the WEB UI at any given moment, meaning that multiple evalations can be run with any number of models/datasets. Having this organized into the tables in the design above will prove to be useful as the project scales with more models and datasets.
+I chose a sql database because of the many foreign key interactions, and likely transactions that will be going on to the database at the same time. Multiple users will be able to access the WEB UI at any given moment, meaning that multiple evaluations can be run with any number of models/datasets. Having this organized into the tables in the design above will prove to be useful as the project scales with more models and datasets.
 
 Let's go through each table, its purpose, and what data it is storing.
 
 ### MODELS & DATASETS
 
 *MODELS* and *DATASETS* are two of the simpler tables in the dataset. The *MODELS* table simply captures each model that is available in the evaluation. Similarly the *DATASETS* table shows which datasets are available to inference the evaluation against. Users looking at the UI, will likely see a list of available models and datasets which will be derived from these tables!See the below `SELECT` statement for the kind of data that exists in these two tables:
+
 
 ```
 mysql> SELECT * FROM MODELS LIMIT 5;
@@ -106,7 +111,7 @@ mysql> SELECT * FROM EVALUATION LIMIT 5;
 
 ### RESULTS_METADATA
 
-This table contians the metadata that determined the score in the *EVALUATION* table. It is very useful to view this data ordered by probability of a detection, to view how the precision and recall scores change as our threshold/probability goes down. See below for the type of data that exists in this table:
+This table contains the metadata that determined the score in the *EVALUATION* table. It is very useful to view this data ordered by probability of a detection, to view how the precision and recall scores change as our threshold/probability goes down. See below for the type of data that exists in this table:
 
 ```
 mysql> SELECT * FROM RESULTS_METADATA LIMIT 5;
@@ -149,7 +154,7 @@ mysql> show databases;
 Use the new database:
 
 ```sql
-mysql> use atr_eval;
+USE atr_eval;
 ```
 
 See the file [create_tables.sql](create_tables.sql) file for the sql code for creating the tables. Here is an example of creating a table for the *EVALUATION* table:
@@ -169,7 +174,7 @@ CREATE TABLE `EVALUATION` (
 );
 ```
 
-Show all of the tables:
+Show all tables:
 
 ```
 mysql> show tables;
@@ -226,3 +231,162 @@ print(mycursor.rowcount, "was inserted.")
 ```
 
 ## Common Queries
+
+### Query 1: Precision Recall
+
+One of the most popular queries to this database will be to look at the results metadata for a specific `evaluation_id`. This will mainly be done to create a very common popular plot called the Precision/Recall or PR Curve. This diagram will typically give users an idea of how well their model is performing and give them a general idea of how to start to compare their model with others. This query will be used to augment helping to create this chart for users based on the data from this query:
+
+```SQL
+SELECT prec, rec, prob FROM RESULTS_METADATA WHERE evaluation_id='1' ORDER BY prob DESC LIMIT 30;
+```
+
+OUTPUT:
+
+```
++-------+-------+-------+
+| prec  | rec   | prob  |
++-------+-------+-------+
+| 1.000 | 0.010 | 0.999 |
+| 1.000 | 0.020 | 0.997 |
+| 1.000 | 0.030 | 0.996 |
+| 1.000 | 0.040 | 0.996 |
+| 1.000 | 0.050 | 0.996 |
+| 1.000 | 0.060 | 0.996 |
+| 1.000 | 0.070 | 0.995 |
+| 1.000 | 0.070 | 0.995 |
+| 1.000 | 0.080 | 0.995 |
+| 1.000 | 0.090 | 0.995 |
+| 1.000 | 0.100 | 0.994 |
+| 1.000 | 0.110 | 0.994 |
+| 1.000 | 0.120 | 0.993 |
+| 1.000 | 0.130 | 0.991 |
+| 1.000 | 0.140 | 0.991 |
+| 1.000 | 0.150 | 0.990 |
+| 1.000 | 0.160 | 0.990 |
+| 1.000 | 0.170 | 0.989 |
+| 1.000 | 0.180 | 0.989 |
+| 1.000 | 0.190 | 0.988 |
+| 1.000 | 0.200 | 0.988 |
+| 1.000 | 0.210 | 0.988 |
+| 1.000 | 0.210 | 0.987 |
+| 1.000 | 0.220 | 0.987 |
+| 1.000 | 0.230 | 0.986 |
+| 1.000 | 0.240 | 0.984 |
+| 1.000 | 0.250 | 0.984 |
+| 1.000 | 0.260 | 0.983 |
+| 1.000 | 0.270 | 0.983 |
+| 1.000 | 0.280 | 0.982 |
++-------+-------+-------+
+30 rows in set (0.00 sec)
+
+```
+
+Typically we wouldn't limit the results here, but due to the amount of data we are just looking at the top 30 detections for a model. Perhaps not the best example, but in the above results we have a very confident model (>98% probability for each detection so far) and so far the model has been right every time indicated by the cumulative precision remaining at 100%. Over time that number will drop, and the recall will increase as the number of detections increases for the dataset. Using this query to plot these results on a simple line chart will be very useful.
+
+### Query 2: Comparing Same Image on Different Models
+
+It may be interesting to compare the same image results from two different models, let's find all the detections for a specific image:
+
+```SQL
+SELECT model_id,
+         image_id,
+         xmin,
+         xmax,
+         ymin,
+         ymax,
+         predicted_class,
+         probability
+FROM DETECTIONS
+WHERE image_id="0d5cb03ba";
+```
+
+OUTPUT:
+
+```
++----------+-----------+---------+---------+---------+---------+-----------------+-------------+
+| model_id | image_id  | xmin    | xmax    | ymin    | ymax    | predicted_class | probability |
++----------+-----------+---------+---------+---------+---------+-----------------+-------------+
+|        1 | 0d5cb03ba | 492.000 | 620.000 | 436.000 | 518.000 | boat            |        0.98 |
+|        1 | 0d5cb03ba | 209.000 | 325.000 |  25.000 |  73.000 | boat            |        0.97 |
+|        2 | 0d5cb03ba | 200.000 | 312.000 |  27.000 |  71.000 | boat            |        0.88 |
++----------+-----------+---------+---------+---------+---------+-----------------+-------------+
+3 rows in set (0.00 sec)
+```
+
+Interesting, looks like model 1 found two detections with fairly high confidence, and model 2 only found one prediction for this image. Let's also take a look at the truth labels for this image id and try and determine which model is doing better!
+
+```SQL
+SELECT * FROM TRUTH_LABELS  WHERE image_id="0d5cb03ba";
+```
+
+OUTPUT: 
+
+```
++----------------+-----------+---------+---------+---------+---------+-------+
+| truth_label_id | image_id  | xmin    | xmax    | ymin    | ymax    | class |
++----------------+-----------+---------+---------+---------+---------+-------+
+|             12 | 0d5cb03ba | 207.000 | 330.000 |  24.000 |  75.000 | boat  |
+|             13 | 0d5cb03ba | 494.000 | 620.000 | 440.000 | 521.000 | boat  |
++----------------+-----------+---------+---------+---------+---------+-------+
+2 rows in set (0.00 sec)
+```
+
+Looks like there were two boats the image `0d5cb03ba` and that `model_id = 1` is finding them a bit better then the second model!
+
+### Query 3: How Many Images are in Each Dataset?
+
+Let's take a look at the tables `DATASETS` & `IMAGES` and count the number of images in each of the datasets. We will need to perform a left join here:
+
+```SQL
+SELECT img.dataset_id, count(*) AS count_images, ds.name, ds.type, ds.description FROM IMAGES img
+LEFT JOIN DATASETS ds
+    ON (ds.dataset_id = img.dataset_id)
+GROUP BY  img.dataset_id;
+```
+
+OUTPUT:
+
+```
++------------+--------------+-------------+------+------------------------+
+| dataset_id | count_images | name        | type | description            |
++------------+--------------+-------------+------+------------------------+
+|          1 |          124 | retinaBoats | boat | gold dataset for boats |
+|          2 |          115 | cat         | cat  | gold dataset for cats  |
+|          3 |          105 | dog         | dog  | gold dataset for dogs  |
++------------+--------------+-------------+------+------------------------+
+3 rows in set (0.00 sec)
+```
+
+From the above output you can see that the boat dataset contains the most images at 124, followed by cats with 115 and dogs with 105.
+
+### Query 4: Compare Model Scores at Different Intersection Over Union (IoU) Thresholds
+
+Another table that users will be interested in is seeing how models perform at different IoU thresholds. This will help the user determine what IoU to use when applying their models to production systems.
+
+```SQL
+SELECT * FROM EVALUATION WHERE model_id=1;
+```
+
+OUTPUT:
+
+```
++---------------+----------+------------+---------------------+--------+-------+----------+------+
+| evaluation_id | model_id | dataset_id | timestamp           | object | score | metric   | IOU  |
++---------------+----------+------------+---------------------+--------+-------+----------+------+
+|             1 |        1 |          1 | 2022-04-23 01:37:17 | boat   |  0.94 | AP_SCORE | 0.50 |
+|             2 |        1 |          1 | 2022-04-24 18:53:55 | boat   |  0.96 | AP_SCORE | 0.30 |
++---------------+----------+------------+---------------------+--------+-------+----------+------+
+2 rows in set (0.00 sec)
+```
+
+The above results may lead a user to use a the lower IoU threshold of 0.3 since the score was slightly higher. A bit more anlysis may need to be done before making this decision, but this summary table can be a helpful starting place.
+
+### Query 5:
+
+## Conclusion & Next Steps
+
+Overall, this project has been a great starting place for my work project, there will be a couple more tables that will need to be added in order to support the UI components as well as a few more model tables such as cleaning up the Models table and adding another table called `OBJECTS` perhaps which will list all of the objects that a specific `model_id` detects.
+
+As far as scaling of the database goes, there will mainly be two tables that could grow very rapidly, that would be the `DETECTIONS` table and the `RESULTS_METADATA` tables. The other tables will grow, but at a fairly small pace. In order to keep the data controlled in the two tables that will grow quickly we will have an aging off of data to be specified in the future, this can also be controlled perhaps by last queried date instead of date of ingest which we can add into the tables as well. 
+
+In summary, this report should have shown what the design and purpose of the mySQL database was, how to create the database/tables and populate and query data from the database.
