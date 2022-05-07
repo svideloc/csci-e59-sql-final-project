@@ -41,27 +41,25 @@ Let's go through each table, its purpose, and what data it is storing.
 
 
 ```
-mysql> SELECT * FROM MODELS LIMIT 4;
+mysql> SELECT * FROM MODELS LIMIT 3;
 +----------+-------------+------+----------------------------+
 | model_id | type        | name | description                |
 +----------+-------------+------+----------------------------+
 |        1 | retinaBoats | boat | retina net model for boats |
 |        2 | fasterBoats | boat | faster rcnn for boats      |
 |        3 | fasterCats  | cats | faster rcnn for cats       |
-|        4 | fasterCats  | dogs | faster rcnn for dogs       |
 +----------+-------------+------+----------------------------+
-4 rows in set (0.00 sec)
+3 rows in set (0.00 sec)
 
-mysql> SELECT * FROM MODELS LIMIT 4;
-+----------+-------------+------+----------------------------+
-| model_id | type        | name | description                |
-+----------+-------------+------+----------------------------+
-|        1 | retinaBoats | boat | retina net model for boats |
-|        2 | fasterBoats | boat | faster rcnn for boats      |
-|        3 | fasterCats  | cats | faster rcnn for cats       |
-|        4 | fasterCats  | dogs | faster rcnn for dogs       |
-+----------+-------------+------+----------------------------+
-4 rows in set (0.00 sec)
+mysql> SELECT * FROM DATASETS LIMIT 3;
++------------+-------------+------+------------------------+
+| dataset_id | name        | type | description            |
++------------+-------------+------+------------------------+
+|          1 | retinaBoats | boat | gold dataset for boats |
+|          2 | cat         | cat  | gold dataset for cats  |
+|          3 | dog         | dog  | gold dataset for dogs  |
++------------+-------------+------+------------------------+
+3 rows in set (0.00 sec)
 ```
 
 ### IMAGES
