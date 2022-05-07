@@ -292,7 +292,7 @@ OUTPUT:
 
 Typically we wouldn't limit the results here, but due to the amount of data we are just looking at the top 30 detections for a model. Perhaps not the best example, but in the above results we have a very confident model (>98% probability for each detection so far) and so far the model has been right every time indicated by the cumulative precision remaining at 100%. Over time that number will drop, and the recall will increase as the number of detections increases for the dataset. Using this query to plot these results on a simple line chart will be very useful.
 
-### Query 2: Comparing Same Image on Different Models
+### Queries 2/3: Comparing Same Image on Different Models
 
 It may be interesting to compare the same image results from two different models, let's find all the detections for a specific image:
 
@@ -342,7 +342,7 @@ OUTPUT:
 
 Looks like there were two boats the image `0d5cb03ba` and that `model_id = 1` is finding them a bit better then the second model!
 
-### Query 3: How Many Images are in Each Dataset?
+### Query 4: How Many Images are in Each Dataset?
 
 Let's take a look at the tables `DATASETS` & `IMAGES` and count the number of images in each of the datasets. We will need to perform a left join here:
 
@@ -368,7 +368,7 @@ OUTPUT:
 
 From the above output you can see that the boat dataset contains the most images at 124, followed by cats with 115 and dogs with 105.
 
-### Query 4: Compare Model Scores at Different Intersection Over Union (IoU) Thresholds
+### Query 5: Compare Model Scores at Different Intersection Over Union (IoU) Thresholds
 
 Another table that users will be interested in is seeing how models perform at different IoU thresholds. This will help the user determine what IoU to use when applying their models to production systems.
 
@@ -389,8 +389,6 @@ OUTPUT:
 ```
 
 The above results may lead a user to use a the lower IoU threshold of 0.3 since the score was slightly higher. A bit more anlysis may need to be done before making this decision, but this summary table can be a helpful starting place.
-
-### Query 5:
 
 ## Conclusion & Next Steps
 
