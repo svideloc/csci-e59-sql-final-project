@@ -1,12 +1,12 @@
-# mySQL Database for Automated Target Recognition (ATR) Common Evaluation Store 
+# <img style="float: left; padding-right: 10px; width: 45px" src="images/extension.png"> mySQL Database for Automated Target Recognition (ATR) Common Evaluation Store  
 
-Final Project for Designing and Developing Relational and NoSQL Databases (CSCI E59) - **Sam Videlock**
+### By Sam Videlock
 
-[Link to Presentation](https://www.canva.com/design/DAE-WG1qk5A/iOBoycNkYgKFXwu4GECifw/view?utm_content=DAE-WG1qk5A&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent)
+Final Project for Designing and Developing Relational and NoSQL Databases (CSCI E59) 
 
-[Link to Github Repo](https://github.com/svideloc/csci-e59-sql-final-project)
-
-[Link to Video]()
+- [Link to Presentation](https://www.canva.com/design/DAE-WG1qk5A/iOBoycNkYgKFXwu4GECifw/view?utm_content=DAE-WG1qk5A&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent)
+- [Link to Github Repo](https://github.com/svideloc/csci-e59-sql-final-project)
+- [Link to Video]()
 
 ## Problem Statement
 
@@ -88,15 +88,15 @@ These two tables show where actual objects are in an image. The *TRUTH_LABELS* t
 
 ```
 mysql> SELECT * FROM TRUTH_LABELS LIMIT 5;
-+----------------+-----------+---------+---------+---------+---------+-------+
-| truth_label_id | image_id  | xmin    | xmax    | ymin    | ymax    | class |
-+----------------+-----------+---------+---------+---------+---------+-------+
-|              1 | 0a09da25f | 506.000 | 627.000 |  26.000 |  87.000 | boat  |
-|              2 | 0a15f8996 | 532.000 | 710.000 |   4.000 |  60.000 | boat  |
-|              3 | ff890d001 |  21.000 | 202.000 | 448.000 | 540.000 | boat  |
-|              4 | 0b652af9e | 429.000 | 543.000 | 518.000 | 616.000 | boat  |
-|              5 | ffc00cde1 | 447.000 | 768.000 | 153.000 | 252.000 | boat  |
-+----------------+-----------+---------+---------+---------+---------+-------+
++--- ---+-----------+---------+---------+---------+---------+-------+
+| tl_id | image_id  | xmin    | xmax    | ymin    | ymax    | class |
++-------+-----------+---------+---------+---------+---------+-------+
+|     1 | 0a09da25f | 506.000 | 627.000 |  26.000 |  87.000 | boat  |
+|     2 | 0a15f8996 | 532.000 | 710.000 |   4.000 |  60.000 | boat  |
+|     3 | ff890d001 |  21.000 | 202.000 | 448.000 | 540.000 | boat  |
+|     4 | 0b652af9e | 429.000 | 543.000 | 518.000 | 616.000 | boat  |
+|     5 | ffc00cde1 | 447.000 | 768.000 | 153.000 | 252.000 | boat  |
++-------+-----------+---------+---------+---------+---------+-------+
 5 rows in set (0.00 sec)
 ```
 
@@ -106,15 +106,15 @@ The *EVALUATION* table is a great summary table for how a model performed. It wi
 
 ```
 mysql> SELECT * FROM EVALUATION LIMIT 5;
-+---------------+----------+------------+---------------------+--------+-------+----------+------+
-| evaluation_id | model_id | dataset_id | timestamp           | object | score | metric   | IOU  |
-+---------------+----------+------------+---------------------+--------+-------+----------+------+
-|             1 |        1 |          1 | 2022-04-23 01:37:17 | boat   |  0.94 | AP_SCORE | 0.50 |
-|             2 |        1 |          1 | 2022-04-24 18:53:55 | boat   |  0.96 | AP_SCORE | 0.30 |
-|             3 |        2 |          1 | 2022-04-24 19:16:29 | boat   |  0.99 | AP_SCORE | 0.50 |
-|             4 |        2 |          1 | 2022-04-24 19:16:50 | boat   |  1.00 | AP_SCORE | 0.30 |
-|             5 |        4 |          2 | 2022-04-24 19:37:06 | dog    |  0.90 | AP_SCORE | 0.50 |
-+---------------+----------+------------+---------------------+--------+-------+----------+------+
++---------+----------+------------+--------+-------+----------+------+
+| eval_id | model_id | dataset_id | object | score | metric   | IOU  |
++---------+----------+------------+--------+-------+----------+------+
+|       1 |        1 |          1 | boat   |  0.94 | AP_SCORE | 0.50 |
+|       2 |        1 |          1 | boat   |  0.96 | AP_SCORE | 0.30 |
+|       3 |        2 |          1 | boat   |  0.99 | AP_SCORE | 0.50 |
+|       4 |        2 |          1 | boat   |  1.00 | AP_SCORE | 0.30 |
+|       5 |        4 |          2 | dog    |  0.90 | AP_SCORE | 0.50 |
++---------+----------+------------+--------+-------+----------+------+
 5 rows in set (0.00 sec)
 ```
 
@@ -124,15 +124,15 @@ This table contains the metadata that determined the score in the *EVALUATION* t
 
 ```
 mysql> SELECT * FROM RESULTS_METADATA LIMIT 5;
-+------------+---------------+-------+-------+----------+-----------+-----------+-------+
-| results_id | evaluation_id | prec  | rec   | true_pos | false_pos | false_neg | prob  |
-+------------+---------------+-------+-------+----------+-----------+-----------+-------+
-|          1 |             1 | 1.000 | 0.010 |        1 |         0 |       106 | 0.999 |
-|          2 |             1 | 1.000 | 0.020 |        2 |         0 |       105 | 0.997 |
-|          3 |             1 | 1.000 | 0.030 |        3 |         0 |       104 | 0.996 |
-|          4 |             1 | 1.000 | 0.040 |        4 |         0 |       103 | 0.996 |
-|          5 |             1 | 1.000 | 0.050 |        5 |         0 |       102 | 0.996 |
-+------------+---------------+-------+-------+----------+-----------+-----------+-------+
++----+---------+-------+-------+----------+-----------+-----------+-------+
+| id | eval_id | prec  | rec   | true_pos | false_pos | false_neg | prob  |
++----+---------+-------+-------+----------+-----------+-----------+-------+
+   1 |       1 | 1.000 | 0.010 |        1 |         0 |       106 | 0.999 |
+|  2 |       1 | 1.000 | 0.020 |        2 |         0 |       105 | 0.997 |
+|  3 |       1 | 1.000 | 0.030 |        3 |         0 |       104 | 0.996 |
+|  4 |       1 | 1.000 | 0.040 |        4 |         0 |       103 | 0.996 |
+|  5 |       1 | 1.000 | 0.050 |        5 |         0 |       102 | 0.996 |
++----+---------+-------+-------+----------+-----------+-----------+-------+
 5 rows in set (0.00 sec)
 ```
 
@@ -312,13 +312,13 @@ WHERE image_id="0d5cb03ba";
 OUTPUT:
 
 ```
-+----------+-----------+---------+---------+---------+---------+-----------------+-------------+
-| model_id | image_id  | xmin    | xmax    | ymin    | ymax    | predicted_class | probability |
-+----------+-----------+---------+---------+---------+---------+-----------------+-------------+
-|        1 | 0d5cb03ba | 492.000 | 620.000 | 436.000 | 518.000 | boat            |        0.98 |
-|        1 | 0d5cb03ba | 209.000 | 325.000 |  25.000 |  73.000 | boat            |        0.97 |
-|        2 | 0d5cb03ba | 200.000 | 312.000 |  27.000 |  71.000 | boat            |        0.88 |
-+----------+-----------+---------+---------+---------+---------+-----------------+-------------+
++----+-----------+---------+---------+---------+---------+-------+------+
+| id | image_id  | xmin    | xmax    | ymin    | ymax    | class | prob |
++----+-----------+---------+---------+---------+---------+--------------+
+|  1 | 0d5cb03ba | 492.000 | 620.000 | 436.000 | 518.000 | boat  | 0.98 |
+|  1 | 0d5cb03ba | 209.000 | 325.000 |  25.000 |  73.000 | boat  | 0.97 |
+|  2 | 0d5cb03ba | 200.000 | 312.000 |  27.000 |  71.000 | boat  | 0.88 |
++----+-----------+---------+---------+---------+---------+--------------+
 3 rows in set (0.00 sec)
 ```
 
@@ -331,12 +331,12 @@ SELECT * FROM TRUTH_LABELS  WHERE image_id="0d5cb03ba";
 OUTPUT: 
 
 ```
-+----------------+-----------+---------+---------+---------+---------+-------+
-| truth_label_id | image_id  | xmin    | xmax    | ymin    | ymax    | class |
-+----------------+-----------+---------+---------+---------+---------+-------+
-|             12 | 0d5cb03ba | 207.000 | 330.000 |  24.000 |  75.000 | boat  |
-|             13 | 0d5cb03ba | 494.000 | 620.000 | 440.000 | 521.000 | boat  |
-+----------------+-----------+---------+---------+---------+---------+-------+
++-------+-----------+---------+---------+---------+---------+-------+
+| tl_id | image_id  | xmin    | xmax    | ymin    | ymax    | class |
++-------+-----------+---------+---------+---------+---------+-------+
+|    12 | 0d5cb03ba | 207.000 | 330.000 |  24.000 |  75.000 | boat  |
+|    13 | 0d5cb03ba | 494.000 | 620.000 | 440.000 | 521.000 | boat  |
++-------+-----------+---------+---------+---------+---------+-------+
 2 rows in set (0.00 sec)
 ```
 
@@ -379,12 +379,12 @@ SELECT * FROM EVALUATION WHERE model_id=1;
 OUTPUT:
 
 ```
-+---------------+----------+------------+---------------------+--------+-------+----------+------+
-| evaluation_id | model_id | dataset_id | timestamp           | object | score | metric   | IOU  |
-+---------------+----------+------------+---------------------+--------+-------+----------+------+
-|             1 |        1 |          1 | 2022-04-23 01:37:17 | boat   |  0.94 | AP_SCORE | 0.50 |
-|             2 |        1 |          1 | 2022-04-24 18:53:55 | boat   |  0.96 | AP_SCORE | 0.30 |
-+---------------+----------+------------+---------------------+--------+-------+----------+------+
++---------+----------+------------+--------+-------+----------+------+
+| eval_id | model_id | dataset_id | object | score | metric   | IOU  |
++---------+----------+------------+--------+-------+----------+------+
+|       1 |        1 |          1 | boat   |  0.94 | AP_SCORE | 0.50 |
+|       2 |        1 |          1 | boat   |  0.96 | AP_SCORE | 0.30 |
++---------+----------+------------+--------+-------+----------+------+
 2 rows in set (0.00 sec)
 ```
 
@@ -397,3 +397,5 @@ Overall, this project has been a great starting place for my work project, there
 As far as scaling of the database goes, there will mainly be two tables that could grow very rapidly, that would be the `DETECTIONS` table and the `RESULTS_METADATA` tables. The other tables will grow, but at a fairly small pace. In order to keep the data controlled in the two tables that will grow quickly we will have an aging off of data to be specified in the future, this can also be controlled perhaps by last queried date instead of date of ingest which we can add into the tables as well. 
 
 In summary, this report should have shown what the design and purpose of the mySQL database was, how to create the database/tables and populate and query data from the database.
+
+**NOTE: Some output tables have been modified to be slightly smaller to fit when converting from markdown to PDF**
